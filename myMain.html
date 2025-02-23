@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Empire Dashboard</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/7902/7902313.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <style>
+        body {
+            background-image: url('green matrix.webp');
+            background-size: cover;
+            background-position: cover;
+            background-repeat: no-repeat;
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .cash-pile {
+            position: absolute;
+            font-size: 30px;
+            color: gold;
+            text-shadow: 0 0 10px yellow;
+            animation: cash-fall 1s linear forwards;
+        }
+        @keyframes cash-fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .btn {
+            background: #33ff33;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 10px #33ff33;
+            margin: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #33ff33;
+        }
+        .dashboard, .empire-dashboard, .analytics, .operations, .leaderboard {
+            display: none;
+        }
+        .card {
+            background: rgba(0, 50, 0, 0.9);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .risk-meter-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        .risk-meter {
+            width: 80%;
+            height: 30px;
+            background: linear-gradient(to right, green 20%, yellow 50%, red 80%);
+            border-radius: 10px;
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 0 0 15px red;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .risk-level {
+            height: 100%;
+            width: 10%;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            position: absolute;
+            left: 0;
+            transition: width 0.5s ease-in-out;
+        }
+        .back-btn {
+            display: none;
+            background: #ff3333;
+            padding: 12px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px #ff3333;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            animation: flicker 1.5s infinite alternate;
+        }
+        .heisenberg-img {
+            display: none;
+            width: 50px; 
+            height: 50px;
+            margin: 20px auto;
+        }
+        .back-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px #ff5555;
+            background: #ff0000;
+        }
+        @keyframes flicker {
+            0% { box-shadow: 0 0 10px #ff3333; }
+            100% { box-shadow: 0 0 20px #ff0000; }
+        }
+        .risk-warning {
+            display: none;
+            color: red;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 20px red;
+            animation: blink 0.8s infinite alternate, shake 0.5s ease-in-out;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .location-templates {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .location-card {
+            width: 30%;
+            padding: 20px;
+            background: rgba(0, 50, 0, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .location-card:hover {
+            transform: scale(1.05) rotateY(10deg);
+            box-shadow: 0 0 25px #33ff33;
+        }
+        .location-info {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .location-info .card {
+            background: rgba(0, 50, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+        }
+        .attribute-card {
+            background: rgba(0, 50, 0, 0.9);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+        }
+        .tier-card {
+            background: rgba(0, 50, 0, 0.9);
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #33ff33;
+        }
+        .tier-card h3 {
+            color: #33ff33;
+            text-shadow: 0 0 10px #33ff33;
+        }
+        .theme-toggle-btn {
+            background: #33ff33;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 10px #33ff33;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #33ff33;
+        }
+        body.fugitive-mode {
+            background-image: url('red matrix.webp');
+            color: #ff3333;
+        }
+        body.fugitive-mode .container {
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 15px #ff3333;
+        }
+        body.fugitive-mode .card {
+            background: rgba(50, 0, 0, 0.9);
+            box-shadow: 0 0 15px #ff3333;
+        }
+        body.fugitive-mode .btn {
+            background: #ff3333;
+            box-shadow: 0 0 10px #ff3333;
+        }
+        body.fugitive-mode .btn:hover {
+            box-shadow: 0 0 20px #ff5555;
+        }
+        body.fugitive-mode .risk-meter {
+            background: linear-gradient(to right, darkred 20%, red 50%, #ff3333 80%);
+            box-shadow: 0 0 15px #ff3333;
+        }
+        body.fugitive-mode .tier-card h3 {
+            color: #ff3333;
+            text-shadow: 0 0 10px #ff3333;
+        }
+        .graph-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="text-shadow: 0 0 20px #33ff33;">Criminal Empire</h1>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">Toggle Mode</button>
+        <img id="heisenberg" class="heisenberg-img" src="heisenberg.png" alt="Heisenberg">
+        <!-- <button class="btn" onclick="startEmpire()">Start Empire</button> -->
+
+        <div class="empire-dashboard">
+            <button class="btn" onclick="showDashboard()">Empire Dashboard</button>
+            <button class="btn" onclick="showAnalytics()">Revenue & Risk Analytics</button>
+            <button class="btn" onclick="showOperations()">Operations Management Panel</button>
+            <button class="btn" onclick="showLeaderboard()">Leaderboard & Achievements</button>
+        </div>
+
+        <button class="btn back-btn" onclick="goBack()">Back</button>
+
+        <div class="dashboard">
+            <div class="card">Total Revenue: <span id="revenue">$0</span></div>
+            <div class="card">Meth Production Rate: <span id="production">0 kg/batch</span></div>
+            <div class="card">Distribution Efficiency: <span id="efficiency">100%</span></div>
+            <div class="card">Law Enforcement Risk: <span id="risk">Low</span></div>
+            <div class="card">Purity Score: <span id="purityScoreDashboard">0%</span></div>
+        </div>
+
+        <div class="analytics">
+            <div class="card">Total Revenue: <span id="analyticsRevenue">$0</span></div>
+            <div class="card">Purity Score: <span id="purityScoreAnalytics">50%</span></div> 
+            <div class="risk-meter-container">
+                <div class="risk-meter">
+                    <div class="risk-level" id="riskLevel"></div>
+                </div>
+            </div>
+            <div class="risk-warning">🚨 DEA is onto you! 🚨</div>
+            <div class="graph-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="graph-container">
+                <canvas id="purityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="operations">
+            <div class="location-templates">
+                <div class="location-card" onclick="showLocationInfo('rv')">
+                    <h3>RV</h3>
+                </div>
+                <div class="location-card" onclick="showLocationInfo('superlab')">
+                    <h3>Superlab</h3>
+                </div>
+                <div class="location-card" onclick="showLocationInfo('warehouse')">
+                    <h3>Warehouse</h3>
+                </div>
+            </div>
+            <div class="location-info">
+                <div class="card">
+                    <h3>Selected Location: <span id="selectedLocation">-</span></h3>
+                    <div class="attribute-card">Cost to Operate: <span id="cost">-</span></div>
+                    <div class="attribute-card">Production Efficiency: <span id="efficiencyInfo">-</span></div>
+                    <div class="attribute-card">Risk Level: <span id="riskLevelInfo">-</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard">
+            <div class="card">
+                <h3>Leaderboard & Achievements</h3>
+                <div class="tier-card">
+                    <h3>Empire Tiers</h3>
+                    <p>Your current tier: <span id="currentTier">Jesse’s Street-Level</span></p>
+                    <ul>
+                        <li>Jesse’s Street-Level: $0 - $75,000</li>
+                        <li>Gus’s Distribution Network: $75,001 - $250,000</li>
+                        <li>Heisenberg’s Empire: $250,001+</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

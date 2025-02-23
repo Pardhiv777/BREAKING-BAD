@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing Circular Cards Layout</title>
+    <script src="script.js"></script>
+    <script>
+
+    </script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #121212;
+            margin: 0;
+            color: white;
+            background-image: url("green matrix.webp");
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+        }
+        .circle-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: rgba(8, 51, 33, 0.63); /* Bright radium color with transparency */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px;
+            line-height: 1.4;
+            text-transform: uppercase;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 150, 0.5), 0 0 40px rgba(0, 255, 150, 0.3); /* Glow effect */
+            border: 1px solid rgba(0, 255, 150, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: scale(1.1);
+            background: rgba(0, 255, 150, 0.5); /* Brighter on hover */
+            box-shadow: 0 0 30px rgba(0, 255, 150, 0.8), 0 0 60px rgba(0, 255, 150, 0.5); /* Stronger glow on hover */
+            border-color: rgba(0, 255, 150, 0.8);
+        }
+        .card:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .card:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .card:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .card:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: radial-gradient(rgba(0, 255, 150, 0.4), transparent);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover::before {
+            transform: scale(1.2);
+        }
+        @media (max-width: 1024px) and (min-width: 601px) {
+            .circle-container {
+                width: 450px;
+                height: 450px;
+            }
+            .card {
+                width: 140px;
+                height: 140px;
+                font-size: 12px;
+            }
+            .card:nth-child(1) { top: 0; }
+            .card:nth-child(2) { right: 0; }
+            .card:nth-child(3) { bottom: 0; }
+            .card:nth-child(4) { left: 0; }
+        }
+        @media (max-width: 600px) {
+            .circle-container {
+                flex-direction: column;
+                width: auto;
+                height: auto;
+                position: static;
+            }
+            .card {
+                position: static;
+                margin: 10px 0;
+                transform: none;
+                width: 160px;
+                height: 160px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-container">
+        <a href="myMain.html?page=leaderboard" class="card">Leaderboard</a>
+        <a href="myMain.html?page=analytics" class="card">Revenue & Risk Analytics</a>
+        <a href="myMain.html?page=empire" class="card">Empire Dashboard</a>
+        <a href="myMain.html?page=operations" class="card">Operations Management</a>
+    </div>
+</body>
+</html>

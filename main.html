@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking Bad Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-size: cover;
+            background-image: radial-gradient(rgb(0, 100, 0) 0%, black);
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+        .radial-button {
+            display: flexbox;
+            width: 250px;
+            height: 250px;
+            background: url("image (1).png");
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 10px solid wheat;
+            animation: glow 2s infinite alternate;
+        }
+        .radial-button:hover {
+            transform: scale(1.1);
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.9);
+            }
+        }
+        .caution-alert {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="relative flex items-center justify-center">
+    
+    <!-- Image Section -->
+    <div class="absolute left-0 top-0 w-2/5 h-full">
+        <img src="heisenberg.png" alt="Breaking Bad" class="w-full h-full object-cover">
+    </div>
+    
+    <!-- Button -->
+    <div class="relative z-10 flex justify-center items-center h-screen w-full">
+        <a class="radial-button" href="dashboard.html"></a>
+    </div>
+    
+    <!-- Icon at Top Right -->
+    <div class="absolute top-4 right-4 text-white text-3xl">
+        <i class="fas fa-flask"></i>
+    </div>
+    <img src="brba.png" alt="" style="position: absolute; top: 0;right: 0;">
+    
+    <!-- Caution Alert -->
+    <div class="caution-alert">
+        ⚠ Caution: High Voltage!
+    </div>
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
